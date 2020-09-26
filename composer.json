@@ -1,0 +1,9 @@
+{
+    "name": "anna/linkbuilder.lo",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
