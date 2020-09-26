@@ -3,52 +3,70 @@ declare(strict_types=1);
 
 namespace App;
 
+use ORM;
+
 class Linkbuilder
 {
-	public function checkIfLink()
-	{
+    private $link;
 
-		$db = new \mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-		$db->set_charset('utf8mb4');
-
-		$url = $db->real_escape_string(substr($_SERVER['REQUEST_URI'], 1));
-
-			$escapedSlug = $url;
-			$redirectResult = $db->query('SELECT url FROM redirect WHERE slug = "' . $escapedSlug . '"');
-
-			if ($redirectResult && $redirectResult->num_rows > 0) {
-				$db->query('UPDATE redirect SET hits = hits + 1 WHERE slug = "' . $escapedSlug . '"');
-				$url = $redirectResult->fetch_object()->url;
-
-				header('Location: ' . $url, true, 301);
-			} elseif (strstr($url, 'build') == 0)
-			{
-				$myUrl = $_GET['url'];
-				$slug = $this->buildLink();
-				if ($db->query('INSERT INTO redirect (slug, url, date, hits) VALUES ("' . $slug . '", "' . $myUrl . '", NOW(), 0)')) {
-					header('HTTP/1.1 201 Created');
-					echo $slug;
-					//$db->query('OPTIMIZE TABLE `redirect`');
-				}
-			} else {
-				//$url = DEFAULT_URL . $_SERVER['REQUEST_URI'];
-				// 404
-				header("HTTP/1.0 404 Not Found");
-			}
-
-			$db->close();
-
-
-		$attributeValue = htmlspecialchars($url);
-	}
-
-	public function buildLink()
-	{
-		return uniqid();
-	}
-
-    public function test(): void
+    public function __construct($link = null)
     {
-        echo 'Hello, autoloaded world!';
+        $this->link = $link ? $link : $_POST['link'];
     }
+
+    public function getLink()
+    {
+        $linkExists = $this->check();
+        if($linkExists)
+            return $_SERVER['HTTP_HOST'].'/'.$linkExists->slug;
+        else {
+            $url = $this->buildHash();
+            $this->save($url);
+            return $_SERVER['HTTP_HOST'].'/'.$url;
+        }
+    }
+
+    /**
+      Проверить, есть ли такая ссылка в хранилище
+     */
+    public function check()
+    {
+        return ORM::for_table(TABLE)->where(
+            'url', $this->link
+        )->find_one();
+    }
+
+    /**
+    Проверить хэш на уникальность
+     */
+    public function checkHash($slug)
+    {
+        return ORM::for_table(TABLE)->where(
+            'slug', $this->slug
+        )->find_one();
+    }
+
+    public function save($slug)
+    {
+        $link = ORM::for_table(TABLE)->create();
+        $link->slug = $slug;
+        $link->url = $this->link;
+        $link->hits = 0;
+        $link->save();
+    }
+
+    /**
+     * Пилим хэши пока не получим уникальный
+     * Вероятностные алгоритмы зло, но что вы хотите, это криптография Х)))
+     */
+    public function buildHash()
+	{
+		$hash = substr(uniqid(), 8);
+		do{
+            $check = $this->checkHash($hash);
+            $hash = substr(uniqid(), 13 - LENGTH);
+        } while ($check);
+		return $hash;
+	}
+
 }

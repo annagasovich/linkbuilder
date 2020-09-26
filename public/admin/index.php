@@ -1,7 +1,8 @@
 <?php
 
-include '../config.php';
+include '../../config.php';
 
 $request = new \App\Router();
 $request->distribute();
+
 ?>

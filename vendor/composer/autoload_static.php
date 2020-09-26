@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620
 {
     public static $prefixLengthsPsr4 = array (
+        'C' => 
+        array (
+            'CRUD\\' => 5,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -14,10 +18,22 @@ class ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620
     );
 
     public static $prefixDirsPsr4 = array (
+        'CRUD\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/arjunkomath/crud/lib',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+    );
+
+    public static $classMap = array (
+        'IdiormMethodMissingException' => __DIR__ . '/..' . '/j4mie/idiorm/idiorm.php',
+        'IdiormResultSet' => __DIR__ . '/..' . '/j4mie/idiorm/idiorm.php',
+        'IdiormString' => __DIR__ . '/..' . '/j4mie/idiorm/idiorm.php',
+        'IdiormStringException' => __DIR__ . '/..' . '/j4mie/idiorm/idiorm.php',
+        'ORM' => __DIR__ . '/..' . '/j4mie/idiorm/idiorm.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -25,6 +41,7 @@ class ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620::$classMap;
 
         }, null, ClassLoader::class);
     }
