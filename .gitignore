@@ -2,3 +2,7 @@
 vendor
 /.idea
 .idea
+.htaccess
+config.php
+/deploy_1010
+/backup

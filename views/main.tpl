@@ -13,8 +13,9 @@
 <br>
 <br>
 <br>
-<div class="justify-content-center row">
-<input type="text" name="short" id="short" class="form-control mr-sm-2" style="max-width: 400px;"></div>
+
+<div class="justify-content-center d-flex">
+<input type="text" name="short" id="short" class="form-control col-lg-6" style="max-width: 400px;"></div>
 <script>
 $(function() {
     $('#linkbuilder').on('submit', function(e) {

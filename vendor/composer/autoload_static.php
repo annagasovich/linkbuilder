@@ -7,6 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620
 {
     public static $prefixLengthsPsr4 = array (
+        'D' => 
+        array (
+            'Delight\\Http\\' => 13,
+            'Delight\\Db\\' => 11,
+            'Delight\\Cookie\\' => 15,
+            'Delight\\Base64\\' => 15,
+            'Delight\\Auth\\' => 13,
+        ),
         'C' => 
         array (
             'CRUD\\' => 5,
@@ -18,6 +26,26 @@ class ComposerStaticInitb36e9e5b3cb7b1be6c946c371e8ea620
     );
 
     public static $prefixDirsPsr4 = array (
+        'Delight\\Http\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/delight-im/http/src',
+        ),
+        'Delight\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/delight-im/db/src',
+        ),
+        'Delight\\Cookie\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/delight-im/cookie/src',
+        ),
+        'Delight\\Base64\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/delight-im/base64/src',
+        ),
+        'Delight\\Auth\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/delight-im/auth/src',
+        ),
         'CRUD\\' => 
         array (
             0 => __DIR__ . '/..' . '/arjunkomath/crud/lib',

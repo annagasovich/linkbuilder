@@ -16,8 +16,7 @@
     </header>
 
 <div class="container">
-	<?php $output = ob_get_clean();?>
-	<?= $output ?>
+	{content}
 </div>
 </body>
 </html>

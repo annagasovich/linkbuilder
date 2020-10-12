@@ -13,8 +13,10 @@ class Router
 	public function distribute()
     {
         if ($_SERVER['REQUEST_URI'] == '/'){
-            $this->render();
+            ob_start();
             include(DOCROOT . 'views/main.tpl');
+            $content = ob_get_clean();
+            $this->render($content);
             return;
         }
 
@@ -33,36 +35,43 @@ class Router
         }
 
         //админка
-        if (strstr($_SERVER['REQUEST_URI'], 'admin')){
+        if (strstr( $_SERVER['REQUEST_URI'], '/admin')){
+
             $admin = new Admin();
-            $this->renderStart();
-            $admin->init();
-            $this->renderEnd();
+
+            $content = $admin->init();
+
+            $this->render($content);
+
             return;
         }
 
         //редирект
-        if(preg_match("/^\/[A-Za-z0-9]{1,13}$/", $_SERVER['REQUEST_URI'])){
+        if(preg_match("/^\/[A-Za-z0-9_]{1,100}$/", $_SERVER['REQUEST_URI'])){
             $redirector = new Redirector();
             $redirector->checkLink($_SERVER['REQUEST_URI']);
+            return;
         }
+
+        header("HTTP/1.0 404 Not Found");
+        ob_start();
+        include(DOCROOT . 'views/404.tpl');
+        $content = ob_get_clean();
+        $this->render($content);
     }
 
-    public function render()
+    public function render($content = 'контент не найден')
     {
         ob_start();
         include(DOCROOT . 'views/sweet_branding.tpl');
+        $template = ob_get_clean();
+
+        $result = str_replace('{content}', $content, $template);
+
+        echo $result;
+        return;
     }
 
-    private function renderStart()
-    {
-        ob_start();
-    }
-
-    private function renderEnd()
-    {
-        include(DOCROOT . 'views/sweet_branding.tpl');
-    }
 
 
 }
