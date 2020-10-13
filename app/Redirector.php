@@ -20,6 +20,10 @@ class Redirector
             $this->redirect($link->url);
         } else {
             header("HTTP/1.0 404 Not Found");
+            ob_start();
+            include(DOCROOT . 'views/404.tpl');
+            $content = ob_get_clean();
+            return $content;
         }
     }
 

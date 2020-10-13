@@ -49,7 +49,7 @@ class Router
         //редирект
         if(preg_match("/^\/[A-Za-z0-9_]{1,100}$/", $_SERVER['REQUEST_URI'])){
             $redirector = new Redirector();
-            $redirector->checkLink($_SERVER['REQUEST_URI']);
+            $this->render($redirector->checkLink($_SERVER['REQUEST_URI']));
             return;
         }
 
@@ -58,6 +58,7 @@ class Router
         include(DOCROOT . 'views/404.tpl');
         $content = ob_get_clean();
         $this->render($content);
+        exit;
     }
 
     public function render($content = 'контент не найден')
