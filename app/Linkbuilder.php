@@ -18,11 +18,11 @@ class Linkbuilder
     {
         $linkExists = $this->check();
         if($linkExists)
-            return $_SERVER['HTTP_HOST'].'/'.$linkExists->slug;
+            return HTTP . $_SERVER['HTTP_HOST'].'/'.$linkExists->slug;
         else {
             $url = $this->buildHash();
             $this->save($url);
-            return $_SERVER['HTTP_HOST'].'/'.$url;
+            return HTTP . $_SERVER['HTTP_HOST'].'/'.$url;
         }
     }
 
