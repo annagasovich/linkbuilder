@@ -42,7 +42,11 @@ class Cache
      */
     public function save()
     {
-
+        $links = ORM::for_table(TABLE)->findMany();
+        foreach ($links as $link){
+            $link->hits = $this->storage->hGet(REDIS_HASH . ':' . $link->slug, 'hits');
+            $link->save();
+        }
     }
 
     public function hit($slug)
@@ -52,12 +56,17 @@ class Cache
 
     public function check($slug)
     {
-
+        return $this->storage->hGet(REDIS_HASH . ':' . $slug, 'url');
     }
 
-    public function append($item)
+    public function append($link)
     {
-
+        $this->storage->hMSet(REDIS_HASH . ':' . $link->slug,
+            [
+                'url' => $link->url,
+                'hits' => $link->hits
+            ]
+        );
     }
 
 }

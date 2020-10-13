@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App;
 
 use ORM;
+use App\Cache;
 
 class Linkbuilder
 {
@@ -53,6 +54,8 @@ class Linkbuilder
         $link->url = $this->link;
         $link->hits = 0;
         $link->save();
+        $cache = new Cache();
+        $cache->append($link);
     }
 
     /**
