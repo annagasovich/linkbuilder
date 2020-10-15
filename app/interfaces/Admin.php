@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\interfaces;
 
+use App\Cache;
+
 class Admin
 {
     private $admin;
@@ -35,6 +37,8 @@ class Admin
             ]
         ]);
         if (strstr($_SERVER['REQUEST_URI'], 'edit')){
+            $cache = new Cache();
+            $cached_link = $cache->rebuild();
             return $this->update();            
         }
 
