@@ -25,9 +25,9 @@ class Cache
      */
     public function rebuild()
     {
+        $this->storage->flushAll();
         $links = ORM::for_table(TABLE)->findMany();
         foreach ($links as $link){
-            $this->storage->del(REDIS_HASH . ':' . $link->slug);
             $this->storage->hMSet(REDIS_HASH . ':' . $link->slug,
                 [
                     'url' => $link->url,

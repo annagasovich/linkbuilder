@@ -4,6 +4,8 @@ include 'config.php';
 
 
 $redis = new App\Cache();
-var_dump($redis->check('19d4e7c1'));
+$redis->save();
+
+echo 'Кэш-данные сохранены в базу';
 
 ?>
