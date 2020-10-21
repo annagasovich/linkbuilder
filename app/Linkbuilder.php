@@ -18,13 +18,29 @@ class Linkbuilder
     public function getLink()
     {
         $linkExists = $this->check();
-        if($linkExists)
-            return HTTP . $_SERVER['HTTP_HOST'].'/'.$linkExists->slug;
-        else {
-            $url = $this->buildHash();
-            $this->save($url);
-            return HTTP . $_SERVER['HTTP_HOST'].'/'.$url;
+        if($linkExists){
+            if($_POST['double']){
+                return $this->buildLink();
+            } else {
+                return HTTP . $_SERVER['HTTP_HOST'].'/'.$linkExists->slug;
+            }
         }
+        else {
+            $responseCode = $this->checkResponse($this->link);
+            if(!$this->validResponse($responseCode))
+                return ERROR;
+            return $this->buildLink();
+        }
+    }
+
+    /**
+     * сгенерировать хэш + сохранить его в базу
+     */
+    public function buildLink()
+    {
+        $url = $this->buildHash();
+        $this->save($url);
+        return HTTP . $_SERVER['HTTP_HOST'].'/'.$url;
     }
 
     /**
@@ -35,6 +51,15 @@ class Linkbuilder
         return ORM::for_table(TABLE)->where(
             'url', $this->link
         )->find_one();
+    }
+
+    /**
+     * Проверить для апи, правильная ли структура в json
+     * @return bool
+     */
+    public function checkForApi()
+    {
+        return is_string($this->link);
     }
 
     /**
@@ -71,5 +96,26 @@ class Linkbuilder
         } while ($check);
 		return $hash;
 	}
+
+	public function checkResponse($url)
+    {
+        if($_POST['future'])
+            return 200;
+        if(!strstr($url, 'http://') && !strstr( $url, 'https://') )
+            $url = 'http://' . $url;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_NOBODY  , true);
+        $c = curl_exec($ch);
+        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        return $info;
+    }
+
+    public function validResponse($code)
+    {
+        return !(($code > 500) || ($code == 0) || ($code == 401));
+    }
 
 }

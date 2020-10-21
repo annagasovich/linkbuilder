@@ -9,6 +9,12 @@
         <input type="submit" value="Отправить" class="btn btn-primary">
         </span>
     </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2 labels">
+    <label for=""><input type="checkbox" name="double" id="">Создать дублирующую короткую ссылку</label>    
+    <label for=""><input type="checkbox" name="future" id="">Создать ссылку для будущего ресурса</label>
+    </div>
+    </div>
 </form>
 <br>
 <br>
@@ -34,5 +40,12 @@ $(function() {
         left: 45%;
         top: -30px;
         color: #38aa2e;
+    }
+    .labels{
+        margin-top: 15px;
+        font-size: 0.7em;
+    }
+    .labels input{
+        margin-right: 10px;
     }
 </style>

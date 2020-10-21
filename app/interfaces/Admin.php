@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\interfaces;
 
+use App\extentions\Admin as AdminPanel;
+
 class Admin
 {
     private $admin;
@@ -26,7 +28,7 @@ class Admin
 
         if (!$this->auth->isLoggedIn())
             header('Location: '.SITE.'/admin/login', TRUE, 302);
-            $this->admin = new \CRUD\Admin([
+            $this->admin = new AdminPanel([
             'tpl' => 'custom_templates',
             'headers' => [
                 'slug' => 'Краткая ссылка',
