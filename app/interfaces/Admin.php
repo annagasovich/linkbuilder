@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\interfaces;
 
 use App\extentions\Admin as AdminPanel;
-use App\Cache;
+use App\cache\Cache;
 
 class Admin
 {
@@ -39,7 +39,7 @@ class Admin
         ]);
         if (strstr($_SERVER['REQUEST_URI'], 'edit')){
             $cache = new Cache();
-            $cached_link = $cache->rebuild();
+            $cache->rebuild();
             return $this->update();            
         }
 

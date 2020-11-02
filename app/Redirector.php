@@ -4,19 +4,20 @@ declare(strict_types=1);
 namespace App;
 
 use ORM;
-use App\Cache;
+use App\cache\Cache;
 
 class Redirector
 {
+    private $link;
     public function checkLink(string $link)
     {
-        $link = substr($link, 1);
+        $this->link = substr($link, 1);
 
         $cache = new Cache();
-        $cached_link = $cache->check($link);
+        $cached_link = $cache->check($this->link);
         if($cached_link)
         {
-            $cache->hit($link);
+            $cache->hit($this->link);
             $this->redirect($cached_link);
             return;
         }
@@ -42,7 +43,23 @@ class Redirector
     {
         if(!strstr($url, 'http://') && !strstr( $url, 'https://') )
             $url = 'http://' . $url;
+
+        $routes = explode('://', $url);
+        $this->logRequest($routes[1]);
+
         header('Location: ' . $url, true, 301);
+    }
+
+    private function logRequest($url)
+    {
+        $preset = [
+            'original' => $url,
+            'slug' => $this->link
+        ];
+        $logger = new Logger($preset);
+        $cache = new Cache();
+        $key = $logger->redisKey();
+        $cache->saveReq($key, $logger->get());
     }
 
 }

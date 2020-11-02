@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'DeviceDetector\\' => array($vendorDir . '/matomo/device-detector'),
     'Delight\\Http\\' => array($vendorDir . '/delight-im/http/src'),
     'Delight\\Db\\' => array($vendorDir . '/delight-im/db/src'),
     'Delight\\Cookie\\' => array($vendorDir . '/delight-im/cookie/src'),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App;
 
 use ORM;
-use App\Cache;
+use App\cache\Cache;
 
 class Linkbuilder
 {

@@ -1,31 +1,19 @@
 <?php
-declare(strict_types=1);
 
-namespace App;
 
-use ORM;
+namespace App\cache;
 
-class Cache
+
+class Redirect extends Cache
 {
-	private $storage;
-
-	public function __construct()
-    {
-        $this->storage = new \Redis();
-        $this->storage->connect('127.0.0.1');
-    }
-
-    public function instance()
-    {
-	    return $this->storage;
-    }
 
     /**
+     * БАЗА => ХЭШ
      * Сохранить всю базу в хэш, т.к. там все равно пространства на 4 миллиарда записей
      */
     public function rebuild()
     {
-        $this->storage->flushAll();
+        $this->storage->flushAll();//вот это надо переделать, оно и реквесты грохать будет
         $links = ORM::for_table(TABLE)->findMany();
         foreach ($links as $link){
             $this->storage->hMSet(REDIS_HASH . ':' . $link->slug,
@@ -38,6 +26,7 @@ class Cache
     }
 
     /**
+     * ХЭШ => БАЗА
      * Обновление хитов
      */
     public function save()

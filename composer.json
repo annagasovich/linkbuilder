@@ -2,7 +2,9 @@
     "name": "anna/linkbuilder.lo",
     "require": {
         "arjunkomath/crud": "dev-master",
-        "delight-im/auth": "^8.2"
+        "delight-im/auth": "^8.2",
+        "ext-json": "*",
+        "matomo/device-detector": "^3.13"
     },
     "autoload": {
         "psr-4": {
