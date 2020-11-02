@@ -43,8 +43,12 @@ class Logger
         return compact('date', 'time', 'ip', 'referer');
     }
 
-    public function redisKey()
+    public function redisKey($id)
     {
-        return REDIS_REQUEST_HASH . ':' . $this->data['original'] . ':' . $this->data['slug'] . ':' . $this->data['date'];
+        return REDIS_REQUEST_HASH . ':'
+            . $this->data['original'] . ':'
+            . $this->data['slug'] . ':'
+            . $this->data['date'] . ':'
+            . $id;
     }
 }

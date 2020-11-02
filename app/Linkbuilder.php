@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App;
 
 use ORM;
-use App\cache\Cache;
+use App\cache\Redirect as RedirectCache;
 
 class Linkbuilder
 {
@@ -79,7 +79,7 @@ class Linkbuilder
         $link->url = $this->link;
         $link->hits = 0;
         $link->save();
-        $cache = new Cache();
+        $cache = new RedirectCache();
         $cache->append($link);
     }
 

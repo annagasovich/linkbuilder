@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\interfaces;
 
 use App\extentions\Admin as AdminPanel;
-use App\cache\Cache;
+use App\cache\Redirect as RedirectCache;
 
 class Admin
 {
@@ -38,9 +38,10 @@ class Admin
             ]
         ]);
         if (strstr($_SERVER['REQUEST_URI'], 'edit')){
-            $cache = new Cache();
+            $view = $this->update();
+            $cache = new RedirectCache();
             $cache->rebuild();
-            return $this->update();            
+            return $view;
         }
 
         if (strstr($_SERVER['REQUEST_URI'], 'del')){

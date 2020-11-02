@@ -3,7 +3,7 @@
 include 'config.php';
 
 
-$redis = new App\Cache();
+$redis = new App\cache\Request();
 $redis->save();
 
 echo 'Кэш-данные сохранены в базу';

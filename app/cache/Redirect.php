@@ -13,8 +13,8 @@ class Redirect extends Cache
      */
     public function rebuild()
     {
-        $this->storage->flushAll();//вот это надо переделать, оно и реквесты грохать будет
-        $links = ORM::for_table(TABLE)->findMany();
+        $this->delete(REDIS_HASH . ':*');
+        $links = \ORM::for_table(TABLE)->findMany();
         foreach ($links as $link){
             $this->storage->hMSet(REDIS_HASH . ':' . $link->slug,
                 [
@@ -31,7 +31,7 @@ class Redirect extends Cache
      */
     public function save()
     {
-        $links = ORM::for_table(TABLE)->findMany();
+        $links = \ORM::for_table(TABLE)->findMany();
         foreach ($links as $link){
             $link->hits = $this->storage->hGet(REDIS_HASH . ':' . $link->slug, 'hits');
             $link->save();
@@ -40,7 +40,7 @@ class Redirect extends Cache
 
     public function hit($slug)
     {
-        $this->storage->hIncrBy(REDIS_HASH . ':' . $slug, 'hits', 1);
+        $this->incr(REDIS_HASH . ':' . $slug, 'hits');
     }
 
     public function check($slug)

@@ -6,6 +6,7 @@ namespace App;
 use App\Linkbuilder;
 use App\interfaces\Api;
 use App\interfaces\Admin;
+use App\interfaces\Analytics;
 use App\Redirector;
 
 class Router
@@ -31,6 +32,13 @@ class Router
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/api'){
             $linkbuilder = new Api();
             echo $linkbuilder->process();
+            return;
+        }
+
+        //получить лог запросов
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/logs'){
+            $logs = new Analytics();
+            echo $logs->get();
             return;
         }
 

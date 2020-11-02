@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace App;
 
 use ORM;
-use App\cache\Cache;
+use App\cache\Redirect as RedirectCache;
+use App\cache\Request as RequestCache;
 
 class Redirector
 {
@@ -13,7 +14,7 @@ class Redirector
     {
         $this->link = substr($link, 1);
 
-        $cache = new Cache();
+        $cache = new RedirectCache();
         $cached_link = $cache->check($this->link);
         if($cached_link)
         {
@@ -57,8 +58,9 @@ class Redirector
             'slug' => $this->link
         ];
         $logger = new Logger($preset);
-        $cache = new Cache();
-        $key = $logger->redisKey();
+        $cache = new RequestCache();
+        $id = $cache->lastId();
+        $key = $logger->redisKey($id);
         $cache->saveReq($key, $logger->get());
     }
 
