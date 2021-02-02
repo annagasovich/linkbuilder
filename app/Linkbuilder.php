@@ -19,7 +19,7 @@ class Linkbuilder
     {
         $linkExists = $this->check();
         if($linkExists){
-            if($_POST['double']){
+            if(isset($_POST['double'])){
                 return $this->buildLink();
             } else {
                 return HTTP . $_SERVER['HTTP_HOST'].'/'.$linkExists->slug;
