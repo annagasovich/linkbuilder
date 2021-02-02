@@ -91,8 +91,7 @@ class Linkbuilder
 	{
 		$hash = substr(uniqid(), 8);
 		do{
-            $check = $this->
-		    ($hash);
+            $check = $this->checkHash($hash);
             $hash = substr(uniqid(), 13 - LENGTH);
         } while ($check);
 		return $hash;
