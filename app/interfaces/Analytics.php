@@ -29,6 +29,8 @@ class Analytics
     private function getFromDB()
     {
         $ids = $this->getIds();
+        if(!$ids)
+            return [];
         $anyMatch = [];
         foreach ($ids as $item) {
             $anyMatch[] = ['id' => $item];
