@@ -68,7 +68,7 @@ class Linkbuilder
     public function checkHash($slug)
     {
         return ORM::for_table(TABLE)->where(
-            'slug', $this->slug
+            'slug', $slug
         )->find_one();
     }
 
