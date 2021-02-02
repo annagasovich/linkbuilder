@@ -91,7 +91,8 @@ class Linkbuilder
 	{
 		$hash = substr(uniqid(), 8);
 		do{
-            $check = $this->checkHash($hash);
+            $check = $this->
+		    ($hash);
             $hash = substr(uniqid(), 13 - LENGTH);
         } while ($check);
 		return $hash;
@@ -99,7 +100,7 @@ class Linkbuilder
 
 	public function checkResponse($url)
     {
-        if($_POST['future'])
+        if(isset($_POST['future']))
             return 200;
         if(!strstr($url, 'http://') && !strstr( $url, 'https://') )
             $url = 'http://' . $url;
