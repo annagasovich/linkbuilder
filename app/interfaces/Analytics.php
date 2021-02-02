@@ -70,6 +70,9 @@ class Analytics
             }
         }
 
+        if(!$ids)
+            return [];
+        
         $vals = array_values($ids);
 
         if(count($vals) == 1)
