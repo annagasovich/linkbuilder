@@ -30,6 +30,7 @@ class Router
 
         //пачка ссылок по апи
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/api'){
+            $this->buildHeaders();
             $linkbuilder = new Api();
             echo $linkbuilder->process();
             return;
@@ -37,6 +38,7 @@ class Router
 
         //получить лог запросов
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/logs'){
+            $this->buildHeaders();
             $logs = new Analytics();
             echo $logs->get();
             return;
@@ -81,6 +83,14 @@ class Router
         return;
     }
 
+    public function buildHeaders()
+    {
+        if(isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], DOMAINS)) {
+            header("Access-Control-Allow-Origin:".$_SERVER['HTTP_ORIGIN']);
+        } else {
+            header("Access-Control-Allow-Origin:".DOMAINS[0]);
+        }
+    }
 
 
 }

@@ -28,7 +28,7 @@ if(isset($filter)){
 if(in_array($key, $filter)) continue;} ?>
     <td>
     	<?php if($key == 'url'): ?>    		
-    	<a href="<?= (!strstr($value, 'http://') && !strstr( $value, 'https://') ) ? 'http://' : '' ?><?= $value?>"><?= $value?></a>
+    	<a data-toggle="tooltip" data-placement="top" title="<?= $value?>" href="<?= (!strstr($value, 'http://') && !strstr( $value, 'https://') ) ? 'http://' : '' ?><?= $value?>"><?= $value?></a>
     	<?php elseif($key == 'slug'): ?>
         <input type="text" value="<?= HTTP ?><?= $_SERVER['HTTP_HOST']?>/<?= $value?>" class="form-control">
         <div class="copy" title="Копировать ссылку"><img src="/static/img/copy.svg" alt="" width="40"></div>
