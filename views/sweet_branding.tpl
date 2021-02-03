@@ -43,6 +43,8 @@ $(function() {
   $('.explain').show();
   setTimeout(function(){$('.explain').hide();}, 2000);
 	});
+
+	$('[data-toggle="tooltip"]').tooltip();
 });
 </script>
 <style>
