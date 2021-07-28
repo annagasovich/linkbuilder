@@ -12,11 +12,11 @@
 
                 <div class="col-md-6">
                     <?php if($field['Type'] == 'date' || $field['Type'] == 'datetime') { ?>
-                        <input id="<?= $field['Field'] ?>" name="<?= $field['Field'] ?>" value="<?= $row[$field['Field']] ?>" type="date" placeholder="" class="form-control input-md" <?php if($field['Null']) echo 'required=""' ?>>
+                        <input id="<?= $field['Field'] ?>" name="<?= $field['Field'] ?>" value="" type="date" placeholder="" class="form-control input-md" <?php if($field['Null']) echo 'required=""' ?>>
                     <?php } else if(stripos($field['Type'], 'int') === false) { ?>
-                        <input id="<?= $field['Field'] ?>" value="<?= $row[$field['Field']] ?>" name="<?= $field['Field'] ?>" type="text" placeholder="" class="form-control input-md" <?php if($field['Null']) echo 'required=""' ?>>
+                        <input id="<?= $field['Field'] ?>" value="" name="<?= $field['Field'] ?>" type="text" placeholder="" class="form-control input-md" <?php if($field['Null']) echo 'required=""' ?>>
                     <?php } else { ?>
-                        <input id="<?= $field['Field'] ?>" value="<?= $row[$field['Field']] ?>" name="<?= $field['Field'] ?>" type="number" placeholder="" class="form-control input-md" <?php if($field['Null']) echo 'required=""' ?>>
+                        <input id="<?= $field['Field'] ?>" value="" name="<?= $field['Field'] ?>" type="number" placeholder="" class="form-control input-md" <?php if($field['Null']) echo 'required=""' ?>>
                     <?php } ?>
                 </div>
             </div>
