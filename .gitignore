@@ -6,5 +6,7 @@ vendor
 config.php
 /deploy_1010
 /backup
-/backups
-/logs
+/backups1
+!/backups/.htaccess
+/logs1
+!/logs/.htaccess
