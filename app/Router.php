@@ -8,12 +8,15 @@ use App\interfaces\Api;
 use App\interfaces\Admin;
 use App\interfaces\Analytics;
 use App\Redirector;
+use App\services\Auth;
 
 class Router
 {
 	public function distribute()
     {
+
         if ($_SERVER['REQUEST_URI'] == '/'){
+            Auth::check();
             ob_start();
             include(DOCROOT . 'views/main.tpl');
             $content = ob_get_clean();
@@ -23,6 +26,7 @@ class Router
 
         //единичная ссылка из веб-интерфейса
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/build'){
+            Auth::check();
             $linkbuilder = new Linkbuilder();
             echo $linkbuilder->getLink();
             return;
@@ -30,10 +34,12 @@ class Router
 
         //пачка ссылок по апи
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/api'){
-            $this->buildHeaders();
-            $linkbuilder = new Api();
-            echo $linkbuilder->process();
-            return;
+            if(Auth::api() === true){
+                $this->buildHeaders();
+                $linkbuilder = new Api();
+                echo $linkbuilder->process();
+                return;
+            }
         }
 
         //получить лог запросов
@@ -46,6 +52,7 @@ class Router
 
         //админка
         if (strstr( $_SERVER['REQUEST_URI'], '/admin')){
+            Auth::check();
 
             $admin = new Admin();
 
