@@ -100,7 +100,7 @@ class Auth
     }
 
     public static function isAdmin(){
-        return self::$auth->hasAnyRole(
+        return self::$auth && self::$auth->hasAnyRole(
                 \Delight\Auth\Role::ADMIN
             );
     }
