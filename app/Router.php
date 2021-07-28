@@ -103,12 +103,19 @@ class Router
 
     public function buildHeaders()
     {
-        if(isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], DOMAINS)) {
-            header("Access-Control-Allow-Origin:".$_SERVER['HTTP_ORIGIN']);
+        if(isset($_SERVER['HTTP_ORIGIN'])) {
+            foreach (DOMAINS as $domain) {
+                if(preg_match('/'.$domain.'/', $_SERVER['HTTP_ORIGIN'])){
+                    header("Access-Control-Allow-Origin:".$_SERVER['HTTP_ORIGIN']);
+                    return;
+                }
+            }
+            header("Access-Control-Allow-Origin:https://".DOMAINS[1]);
         } else {
-            header("Access-Control-Allow-Origin:".DOMAINS[0]);
+            header("Access-Control-Allow-Origin:https://".DOMAINS[1]);
         }
     }
+
 
 
 }
