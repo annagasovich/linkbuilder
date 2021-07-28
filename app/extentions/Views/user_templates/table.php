@@ -43,7 +43,11 @@ if(in_array($key, $filter)) continue;} ?>
 <?php } ?>
 </tbody>
 </table>
+    <div>
+        <a href="/admin/users/create/" class="btn btn-primary">Создать пользователя</a>
+    </div>
 </div>
+
 <!-- <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function(){

@@ -44,11 +44,20 @@ class Users
 
     public function create()
     {
-        return $this->admin->create(self::$TABLE, $_GET['id'], self::$IGNORE);
+        if($_POST){
+            $_POST['registered'] = time();
+            $_POST['verified'] = 1;
+            $this->prepare_post();
+        }
+        return $this->admin->create(self::$TABLE, self::$IGNORE);
     }
 
     public function update()
     {
+        if($_POST){
+            $_POST['registered'] = time();
+            $this->prepare_post();
+        }
         return $this->admin->update(self::$TABLE, $_GET['id'], self::$IGNORE);
     }
 
@@ -56,5 +65,26 @@ class Users
     {
         return $this->admin->delete(self::$TABLE, $_GET['id']);
     }
+
+    private function prepare_post(){
+    /*Исключения: пароль и роль*/
+    if(isset($_POST['password'])){
+        if($_POST['password'] == '')
+            unset($_POST['password']);
+        else
+            $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    }
+
+    if(isset($_POST['role'])){
+        if($_POST['role'] == 'admin')
+            $_POST['roles_mask'] = \Delight\Auth\Role::ADMIN;
+
+        if($_POST['role'] == 'user')
+            $_POST['roles_mask'] = \Delight\Auth\Role::EMPLOYEE;
+
+        unset($_POST['role']);
+    }
+}
+
 
 }

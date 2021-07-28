@@ -14,7 +14,8 @@
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand mr-auto" href="/">Сокращатель ссылок</a>
-        <a class="navbar-brand" href="/admin/"><img src="/static/img/admin.svg" alt="" width="40"></a>
+          <a class="navbar-brand admin" href="/admin/" style="font-size: 40px;line-height: 10px;">@</a>
+          <a class="navbar-brand admin" href="/admin/users/"><img src="/static/img/admin.svg" alt="" width="40"></a>
       </nav>
     </header>
 
@@ -48,6 +49,7 @@ $(function() {
 });
 </script>
 <style>
+    .admin{display: none;}
 	.copy{
 		display: inline-block;
 		opacity: 0.5;

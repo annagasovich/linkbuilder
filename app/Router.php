@@ -53,6 +53,14 @@ class Router
         //админка
         if (strstr( $_SERVER['REQUEST_URI'], '/admin')){
             Auth::check();
+            if(Auth::authorized() && !Auth::isAdmin()){
+                header("HTTP/1.0 401 Unauthorized");
+                ob_start();
+                include(DOCROOT . 'views/forbidden.tpl');
+                $content = ob_get_clean();
+                $this->render($content);
+                exit;
+            }
 
             $admin = new Admin();
 
@@ -82,6 +90,9 @@ class Router
     {
         ob_start();
         include(DOCROOT . 'views/sweet_branding.tpl');
+        if(Auth::isAdmin()){
+            include(DOCROOT . 'views/admin_style.tpl');
+        }
         $template = ob_get_clean();
 
         $result = str_replace('{content}', $content, $template);

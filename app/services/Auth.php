@@ -68,7 +68,8 @@ class Auth
         catch (\Delight\Auth\TooManyRequestsException $e) {
             return('Исчерпаны попытки входа');
         }
-        return true;
+
+        header('Location: '.SITE.'/', TRUE, 302);
     }
 
     public static function api(){
@@ -96,6 +97,12 @@ class Auth
         if(!strstr($_SERVER['REQUEST_URI'], 'admin/login'))
             self::redirectToLogin();
         return true;
+    }
+
+    public static function isAdmin(){
+        return self::$auth->hasAnyRole(
+                \Delight\Auth\Role::ADMIN
+            );
     }
 
 }

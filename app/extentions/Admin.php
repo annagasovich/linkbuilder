@@ -38,7 +38,8 @@ class Admin {
                 \ORM::get_db()->rollBack();
                 throw $e;
             }
-            $this->view = new Create('done');
+            $this->view = new Create('done', null, $this->config);
+            return $this->view->render();
         } else {
             $fields = \ORM::for_table($table)->raw_query('DESCRIBE '.$table)->find_array();
             if($ignore_keys) {
@@ -48,7 +49,7 @@ class Admin {
                 }
             }
             $data['fields'] = $fields;
-            $this->view = new Create('create', $data);
+            $this->view = new Create('create', $data, $this->config);
             return $this->view->render();
         }
     }
@@ -69,7 +70,9 @@ class Admin {
     public function update($table, $id, $ignore_keys = null) {
         if($_POST) {
             try {
+
                 $params = $_POST;
+
                 $this->crud->save($table, $params, $id);
                 $this->view = new Create('done', null, $this->config);
             } catch (\PDOException $e) { //Added slash
