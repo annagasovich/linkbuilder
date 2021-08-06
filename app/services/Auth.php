@@ -109,7 +109,7 @@ class Auth
         if(!self::$auth){
             self::initAuth();
         }
-        if(self::$auth){
+        if(self::$auth && self::user()){
             ActionLog::log('logout');
             self::$auth->logout();
             self::$auth->destroySession();
