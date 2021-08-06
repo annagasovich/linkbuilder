@@ -16,6 +16,7 @@
         <a class="navbar-brand mr-auto" href="/">Сокращатель ссылок</a>
           <a class="navbar-brand admin" href="/admin/" style="font-size: 40px;line-height: 10px;">@</a>
           <a class="navbar-brand admin" href="/admin/users/"><img src="/static/img/admin.svg" alt="" width="40"></a>
+          <a class="navbar-brand" href="/exit/"><img src="/static/img/exit.svg" alt="" width="30"></a>
       </nav>
     </header>
 

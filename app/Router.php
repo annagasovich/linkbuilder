@@ -8,6 +8,7 @@ use App\interfaces\Api;
 use App\interfaces\Admin;
 use App\interfaces\Analytics;
 use App\Redirector;
+use App\services\ActionLog;
 use App\services\Auth;
 
 class Router
@@ -24,11 +25,21 @@ class Router
             return;
         }
 
+        if ($_SERVER['REQUEST_URI'] == '/exit/'){
+            Auth::logout();
+            Auth::redirectToLogin();
+            return;
+        }
+
         //единичная ссылка из веб-интерфейса
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/build'){
             Auth::check();
             $linkbuilder = new Linkbuilder();
-            echo $linkbuilder->getLink();
+            $link = $linkbuilder->getLink();
+
+            ActionLog::log('build link from interface ' . $_POST['link'] . ' => ' . $link);
+
+            echo $link;
             return;
         }
 
@@ -37,17 +48,32 @@ class Router
             if(Auth::api() === true){
                 $this->buildHeaders();
                 $linkbuilder = new Api();
-                echo $linkbuilder->process();
+
+                $links =  $linkbuilder->process();
+
+                ActionLog::log('build link from api ' . json_encode($links));
+
+                echo $links;
                 return;
             }
         }
 
         //получить лог запросов
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/logs'){
-            $this->buildHeaders();
-            $logs = new Analytics();
-            echo $logs->get();
-            return;
+            if(Auth::api() === true && Auth::isAdmin()){
+                $this->buildHeaders();
+
+                ActionLog::log('request logs');
+
+                $logs = new Analytics();
+
+                echo $logs->get();
+
+                return;
+            } else {
+                header("HTTP/1.0 401 Unauthorized");
+                exit;
+            }
         }
 
         //админка

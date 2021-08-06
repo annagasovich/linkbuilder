@@ -46,7 +46,7 @@ class Auth
 
     }
 
-    public static function login($login, $pass){
+    public static function login($login, $pass, $is_api = false){
         if(!$login || !$pass)
             return false;
         self::initAuth();
@@ -69,12 +69,18 @@ class Auth
             return('Исчерпаны попытки входа');
         }
 
+        if($is_api){
+            ActionLog::log('api login');
+            return true;
+        } else {
+            ActionLog::log('login');
+        }
         header('Location: '.SITE.'/', TRUE, 302);
     }
 
     public static function api(){
 
-        $login = self::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+        $login = self::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'], true);
         if($login !== true){
             header('HTTP/1.0 401 Unauthorized');
             exit;
@@ -99,10 +105,26 @@ class Auth
         return true;
     }
 
+    public static function logout(){
+        if(!self::$auth){
+            self::initAuth();
+        }
+        if(self::$auth){
+            ActionLog::log('logout');
+            self::$auth->logout();
+            self::$auth->destroySession();
+            self::$auth = false;
+        }
+    }
+
     public static function isAdmin(){
         return self::$auth && self::$auth->hasAnyRole(
                 \Delight\Auth\Role::ADMIN
             );
+    }
+
+    public static function user(){
+        return self::$auth->id();
     }
 
 }

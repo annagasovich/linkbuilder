@@ -19,7 +19,6 @@ class Create {
             if (file_exists($file)) {
                 $this->render = $file;
             } else {
-                var_dump($file);
                 throw new customException('Template ' . $template . ' not found!');
             }
         }

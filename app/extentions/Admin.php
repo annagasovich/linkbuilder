@@ -1,6 +1,7 @@
 <?php
 namespace App\extentions;
 
+use App\services\ActionLog;
 use CRUD\CRUD;
 use App\extentions\Views\Create;
 use App\extentions\Views\Read;
@@ -34,6 +35,7 @@ class Admin {
                 }
                 $insert->save();
                 \ORM::get_db()->commit();
+                ActionLog::log('create in ' . $table . ' item ' . json_encode($params));
             } catch (Exception $e) {
                 \ORM::get_db()->rollBack();
                 throw $e;
@@ -74,6 +76,9 @@ class Admin {
                 $params = $_POST;
 
                 $this->crud->save($table, $params, $id);
+
+                ActionLog::log('update in ' . $table . ' item ' . json_encode($params));
+
                 $this->view = new Create('done', null, $this->config);
             } catch (\PDOException $e) { //Added slash
                 //echo $e->getMessage();
@@ -102,6 +107,8 @@ class Admin {
     }
 
     public function delete($table, $id) {
+
+        ActionLog::log('delete in ' . $table . ' item ' . $id);
         $this->crud->delete($table, $id);
         $this->view = new Create('done', null, $this->config);
         return $this->view->render();

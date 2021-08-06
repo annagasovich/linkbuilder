@@ -8,5 +8,5 @@ config.php
 /backup
 /backups
 !/backups/.htaccess
-/logs
+/log
 !/backups/.htaccess
