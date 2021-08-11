@@ -45,8 +45,8 @@ class Router
 
         //пачка ссылок по апи
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/api'){
+            $this->buildHeaders();
             if(Auth::api() === true){
-                $this->buildHeaders();
                 $linkbuilder = new Api();
 
                 $links =  $linkbuilder->process();
@@ -60,8 +60,8 @@ class Router
 
         //получить лог запросов
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/logs'){
+            $this->buildHeaders();
             if(Auth::api() === true && Auth::isAdmin()){
-                $this->buildHeaders();
 
                 ActionLog::log('request logs');
 
