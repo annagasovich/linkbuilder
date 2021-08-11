@@ -129,7 +129,8 @@ class Router
 
     public function buildHeaders()
     {
-        header("Access-Control-Allow-Origin:".DOMAINS[0]);
+        header("Access-Control-Allow-Origin:https://wciom.ru");
+        //header("Access-Control-Allow-Origin:".DOMAINS[0]);
         return;
         if(isset($_SERVER['HTTP_ORIGIN'])) {
             foreach (DOMAINS as $domain) {
