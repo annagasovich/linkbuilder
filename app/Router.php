@@ -129,6 +129,8 @@ class Router
 
     public function buildHeaders()
     {
+        header("Access-Control-Allow-Origin:https://".DOMAINS[0]);
+        return;
         if(isset($_SERVER['HTTP_ORIGIN'])) {
             foreach (DOMAINS as $domain) {
                 if(preg_match('/'.$domain.'/', $_SERVER['HTTP_ORIGIN'])){
