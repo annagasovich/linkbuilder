@@ -23,7 +23,7 @@ class Redirector
             return;
         }
         $link = ORM::for_table(TABLE)->where(
-            'slug', $link
+            'slug', $this->link
         )->find_one();
 
         if($link) {
