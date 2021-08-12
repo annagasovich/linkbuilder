@@ -79,7 +79,11 @@ class Auth
     }
 
     public static function api(){
+
         if(!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])){
+            if(isset($_POST['login']) && isset($_POST['password'])){
+                return Auth::login($_POST['login'], $_POST['password'], 1);
+            }
             header('HTTP/1.0 401 Unauthorized');
             exit;
         }
