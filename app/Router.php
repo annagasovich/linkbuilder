@@ -59,7 +59,7 @@ class Router
         }
 
         //получить лог запросов
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] == '/logs'){
+        if (($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'OPTIONS') && $_SERVER['REQUEST_URI'] == '/logs'){
             $this->buildHeaders();
             if(Auth::api() === true && Auth::isAdmin()){
 
