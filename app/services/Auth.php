@@ -79,7 +79,10 @@ class Auth
     }
 
     public static function api(){
-
+        if(!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])){
+            header('HTTP/1.0 401 Unauthorized');
+            exit;
+        }
         $login = self::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'], true);
         if($login !== true){
             header('HTTP/1.0 401 Unauthorized');
