@@ -18,7 +18,7 @@ class Auth
     {
         if(!self::$auth){
             $db = new PdoDsn('mysql:dbname='.MYSQL_DATABASE.';host='.MYSQL_HOST.';charset=utf8mb4', MYSQL_USER, MYSQL_PASSWORD);
-            self::$auth = new VendorAuth($db,  ull, null, false);
+            self::$auth = new VendorAuth($db,  null, null, false);
         }
         return self::$auth;
     }
