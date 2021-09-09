@@ -83,7 +83,9 @@ class Admin
             $login = ob_get_clean();
             return $login;
         } else {
-            Auth::login($_POST['email'], $_POST['password']);
+            $result = Auth::login($_POST['email'], $_POST['password']);
+            if(is_string($result))
+                return '<h1>' . $result. '</h1>';
         }
     }
 
